@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option go_package = "./ecommerce";
+option java_package = "ecommerce";
+option java_multiple_files = true;
+
+package ecommerce;
+
+import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
+
+service ProductInfo {
+	rpc addProduct(Product) returns (google.protobuf.StringValue) {
+		option(google.api.http) = {
+			post: "v1/product"
+			body: "*"
+		};
+	};
+
+	rpc getProduct(google.protobuf.StringValue) returns (Product) {
+		option(google.api.http) = {
+			get: "v1/product/{value}"
+		};
+	};
+}
+
+message Product {
+	string id = 1;
+	string name = 2;
+	string description = 3;
+	uint64 price = 4;
+}
